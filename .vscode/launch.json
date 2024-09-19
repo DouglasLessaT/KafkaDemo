@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "PaymentmicroservicoApplication",
+            "request": "launch",
+            "mainClass": "privateclasswizard.com.paymentmicroservico.PaymentmicroservicoApplication",
+            "projectName": "paymentmicroservico"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PaymentmicroservicoApplication<paymentmicroservico>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "privatewizard.com.paymentmicroservico.PaymentmicroservicoApplication",
+            "projectName": "paymentmicroservico",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=35659 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=paymentmicroservico"
+        }
+    ]
+}

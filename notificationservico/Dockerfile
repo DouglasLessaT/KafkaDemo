@@ -1,9 +1,15 @@
-FROM openjdk:17-jdk-alpine
+FROM node:18-alpine
 
 WORKDIR /app
 
-COPY target/paymentmicroservico-0.0.1-SNAPSHOT.jar app.jar
+COPY package*.json ./
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+RUN npm install
 
-EXPOSE 8080
+COPY .  .
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["npm", "run", "start"]

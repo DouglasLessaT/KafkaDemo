@@ -8,7 +8,7 @@ import lombok.Data;
 @Component
 public class Payment {
 
-    private Long id;
+    private Long id; // usar um gerador de numero
     private String orderId;
     private double amount;
 }

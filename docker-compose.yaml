@@ -1,29 +1,6 @@
 version: '3.8'
 
 services:
-  # Microserviço 1 - paymentmicroservico
-  paymentmicroservico:
-    build:
-      context: ./paymentmicroservico
-      dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
-    networks:
-      - app-network
-    depends_on:
-      - kafka
-
-  # Microserviço 2 - notificationservico
-  notificationservico:
-    build:
-      context: ./notificationservico
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    networks:
-      - app-network
-    depends_on:
-      - kafka
 
   # Zookeeper
   zookeeper:
@@ -47,9 +24,7 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: |
-        PLAINTEXT://kafka:9092,
-        PLAINTEXT_HOST://localhost:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
@@ -69,6 +44,36 @@ services:
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
     networks:
       - app-network
+
+      # Microserviço 1 - m1sevicepayament
+  paymentmicroservico:
+    build:
+      context: ./m1sevicepayament
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    environment:
+      - KAFKA_BROKER=kafka:9092
+    depends_on:
+      - kafka
+
+  # Microserviço 2 - notificationservico
+  notificationservico:
+    build:
+      context: ./notificationservico
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      KAFKA_BROKER: kafka:9092
+      KAFKA_TOPIC: payments
+      CONSUMER_GROUP_ID: notification_group
+    depends_on:
+      - kafka
 
 networks:
   app-network:

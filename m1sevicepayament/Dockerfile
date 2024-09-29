@@ -24,6 +24,8 @@ RUN mvn clean package
 # Set the working directory for the final executable
 WORKDIR /app/target
 
+ENV KAFKA_BROKER=kafka:9092
+
 # Expose the port the app runs on
 EXPOSE 8080
 

@@ -20,13 +20,15 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<String> processPayment(@RequestBody Payment payment) {
         // Simular o processamento do pagamento
-        String confirmationMessage = String.format("Pagamento de %.2f para o pedido %s processado com sucesso!", 
-                                                    payment.getAmount(), 
-                                                    payment.getOrderId());
+        String confirmationMessage = String.format("Pagamento de %.2f para o pedido %s processado com sucesso!",
+                payment.getAmount(),
+                payment.getOrderId());
 
+        System.out.println("Enviando pagamento para Kafka: " + payment);
         // Enviar a mensagem para o Kafka
         kafkaTemplate.send(TOPIC, payment);
 
         return ResponseEntity.ok(confirmationMessage);
     }
+
 }

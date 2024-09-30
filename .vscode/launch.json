@@ -17,6 +17,16 @@
             "args": "",
             "envFile": "${workspaceFolder}/.env",
             "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=35659 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=paymentmicroservico"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-M1sevicepayamentApplication<m1sevicepayament>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "privateclasswizard.m1sevicepayament.M1sevicepayamentApplication",
+            "projectName": "m1sevicepayament",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

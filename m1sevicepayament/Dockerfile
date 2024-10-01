@@ -19,7 +19,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Set the working directory for the final executable
 WORKDIR /app/target

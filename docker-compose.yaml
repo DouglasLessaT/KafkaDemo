@@ -5,7 +5,7 @@ services:
   # Zookeeper
   zookeeper:
     container_name: zookeeper
-    image: confluentinc/cp-zookeeper:latest  # Considere especificar uma versão
+    image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
@@ -13,25 +13,7 @@ services:
       - "2181:2181"
     networks:
       - app-network
-
-  # Kafka
-  kafka:
-    container_name: kafka
-    image: confluentinc/cp-kafka:latest  # Considere especificar uma versão
-    depends_on:
-      - zookeeper
-    ports:
-      - "9092:9092"
-      - "29092:29092"
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - app-network
+  
 
   # Kafka UI
   kafka-ui:
@@ -45,6 +27,24 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
       KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    networks:
+      - app-network
+
+
+  # Kafka
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - app-network
 
@@ -63,23 +63,23 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
 
-  # Microserviço 2 - m2sevicenotification
+  # Microserviço 2 - notificationservico
   notificationservico:
-    container_name: m2sevicenotification
+    container_name: notificationservico
     build:
-      context: ./m2sevicenotification
+      context: ./notificationservico
       dockerfile: Dockerfile
+    depends_on:
+      - kafka
+      - m1sevicepayament
     ports:
       - "3000:3000"
     networks:
       - app-network
     environment:
-      KAFKA_BROKER: kafka:9092
-      KAFKA_TOPIC: payments
-      CONSUMER_GROUP_ID: notification_group
-    depends_on:
-      - kafka
-      - m1sevicepayament
+      - KAFKA_BROKER=kafka:9092
+      - KAFKA_TOPIC=payments
+      - CONSUMER_GROUP_ID=notification_group
 
 networks:
   app-network:

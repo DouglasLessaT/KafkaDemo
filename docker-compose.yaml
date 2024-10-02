@@ -63,11 +63,11 @@ services:
     environment:
       - KAFKA_BROKER=kafka:9092
 
-  # Microserviço 2 - notificationservico
-  notificationservico:
-    container_name: notificationservico
+  # Microserviço 2 - m2sevicenotification
+  m2sevicenotification:
+    container_name: m2sevicenotification
     build:
-      context: ./notificationservico
+      context: ./m2sevicenotification
       dockerfile: Dockerfile
     depends_on:
       - kafka

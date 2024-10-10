@@ -1,4 +1,4 @@
-import { KafkaConsumer } from './kafkaConsumer';
+import { KafkaConsumer } from './KafkaConsumer';
 
 export class PaymentConsumerService {
     private consumer: KafkaConsumer;

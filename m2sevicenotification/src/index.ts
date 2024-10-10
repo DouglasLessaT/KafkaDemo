@@ -1,4 +1,4 @@
-import { PaymentConsumerService } from './consumers/paymentConsumerService';
+import { PaymentConsumerService } from './consumers/PaymentConsumerService';
 
 const kafkaBroker = process.env.KAFKA_BROKER || 'localhost:9092';
 const kafkaTopic = process.env.KAFKA_TOPIC || 'payments';
